@@ -1,0 +1,25 @@
+<!-- filepath: /home/alan/Gestor_De_Tareas/app/views/layouts/_sidebar.html.erb -->
+<div class="scrollbar-sidebar">
+  <div class="app-sidebar sidebar-shadow">
+    <div class="app-header__logo" style="padding: 0.7rem; font-weight: bold; font-size: 1.5rem; color: #fff;">
+      Gestor de Tareas
+      <div class="header__pane ml-auto">
+        <!-- Puedes dejar aquí el botón de cerrar si lo usas -->
+      </div>
+    </div>
+    <div class="app-header__mobile-menu">
+      <div>
+        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="app-sidebar__inner">
+      <ul class="vertical-nav-menu">
+        <%= render "layouts/links" %>
+      </ul>
+    </div>
+  </div>
+</div>

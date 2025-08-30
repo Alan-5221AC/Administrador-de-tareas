@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Tareas completadas</h2>
+    <div class="mb-3">
+      <%= form_with url: tareas_completadas_path, method: :get, local: true, class: "row g-2 align-items-center" do %>
+  <div class="col-auto">
+    <%= label_tag :prioridad, "Filtrar por prioridad:", class: "col-form-label" %>
+  </div>
+  <div class="col-auto">
+    <%= select_tag :prioridad, options_for_select([["Todas", ""],[ t("tareas.baja"), 1], [ t("tareas.media"), 2], [ t("tareas.alta"), 3], [ t("tareas.urgente"), 4]], params[:prioridad]), class: "form-select" %>
+  </div>
+  <div class="col-auto">
+    <%= submit_tag "Filtrar", class: "btn btn-primary" %>
+  </div>
+<% end %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <% @tareas_completadas.each do |tarea| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= tarea.titulo %></h5>
+            <p class="card-text"><%= tarea.descripcion %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                Fecha límite <strong><%= tarea.fecha_limite %></strong>
+                <% if tarea.PersonaAsignada.present? %> | Asignada a <strong><%= tarea.PersonaAsignada %></strong><% end %>
+              </small>
+            </p>
+            <span class="badge bg-success"><%=t('tareas.completada')%></span>
+            <% if tarea.descripcion_completado.present? %>
+              <div class="alert alert-success mt-2">
+                <strong>Descripción de lo realizado:</strong>
+                <p><%= tarea.descripcion_completado %></p>
+              </div>
+            <% end %>
+          </div>
+          <div class="card-footer">
+            <%= link_to "Editar", edit_tarea_path(tarea), class: "btn btn-secondary text-light" %>
+            <%= link_to "Eliminar", tarea_path(tarea), method: :delete, data: { confirm: "Confirmar Eliminación" }, class: "btn btn-danger text-light" %>
+          </div>
+          <% if tarea.prioridad.present? %>
+            <div class="card-footer">
+              <span class="badge <%= tarea.prioridad_clase %>">
+                <%= tarea.prioridad_texto %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

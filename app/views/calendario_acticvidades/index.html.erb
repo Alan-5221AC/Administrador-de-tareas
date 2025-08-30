@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Calendario de actividades</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-primary">
+        <tr>
+          <th>Título: </th>
+          <th>Descripción: </th>
+          <th>Prioridad: </th>
+          <th style="width: 110px;">Asignada a: </th>
+          <th style="width: 120px;">Fecha límite: </th>
+          <th>Estado: </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tareas.each do |tarea| %>
+          <tr>
+            <td><%= tarea.titulo %></td>
+            <td><%= tarea.descripcion %></td>
+            <td>
+              <%# Puedes usar un helper si tienes prioridad_texto %>
+              <%= tarea.respond_to?(:prioridad_texto) ? tarea.prioridad_texto : tarea.prioridad %>
+            </td>
+            <td><%= tarea.PersonaAsignada %></td>
+            <td><%= tarea.fecha_limite %></td>
+            <td>
+              <% if tarea.completada %>
+                <span class="badge bg-success">Completada</span>
+              <% else %>
+                <span class="badge bg-warning text-dark">Pendiente</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

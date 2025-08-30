@@ -1,0 +1,50 @@
+<!-- filepath: app/views/tareas/edit.html.erb -->
+<div class="modal show d-block" tabindex="-1" aria-labelledby="modalEditarTareaLabel" aria-modal="true" role="dialog" style="background: rgba(0,0,0,0.2);">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarTareaLabel"><%= t('tareas.acciones.editar') %></h5>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: @tarea, local: true) do |form| %>
+          <div class="mb-3">
+            <%= form.label :titulo, t("tareas.titulo_tarea"), class: "form-label" %>
+            <%= form.text_field :titulo, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :descripcion, t("tareas.descripcion"), class: "form-label" %>
+            <%= form.text_area :descripcion, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :prioridad, t("tareas.prioridad"), class: "form-label" %>
+            <%= form.select :prioridad, options_for_select([
+              [ t("tareas.seleccionar"), nil],
+              [ t("tareas.baja"), 1],
+              [ t("tareas.media"), 2], 
+              [ t("tareas.alta"), 3],
+              [ t("tareas.urgente"), 4]
+            ], @tarea.prioridad),
+            { prompt:  t("tareas.seleccionar") },
+            { class: "form-select" } %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :PersonaAsignada, t('tareas.persona_asignada'), class: "form-label" %>
+            <%= form.text_field :PersonaAsignada, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :fecha_limite, t('tareas.fecha_limite'), class: "form-label" %>
+            <%= form.date_field :fecha_limite, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :completada, t('tareas.completada'), class: "form-label" %>
+            <%= form.check_box :completada %>
+          </div>
+          <div class="modal-footer">
+            <%= form.submit t('tareas.acciones.guardar'), class: "btn btn-primary" %>
+            <%= link_to t('tareas.acciones.cancelar'), todas_tareas_path, class: "btn btn-secondary text-light" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

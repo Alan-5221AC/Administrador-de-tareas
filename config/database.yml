@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres  # Por defecto suele ser "postgres"
+  password: 1234    # La que configuraste al instalar PostgreSQL
+  host: localhost
+
+development:
+  <<: *default
+  database: gestor_de_tareas_development
+
+test:
+  <<: *default
+  database: gestor_de_tareas_test
+
+production:
+  <<: *default
+  database: gestor_de_tareas_production

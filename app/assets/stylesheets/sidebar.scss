@@ -1,0 +1,161 @@
+.app-sidebar.closed {
+  margin-left: -220px;
+  transition: margin-left 0.3s;
+}
+.flex-grow-1.sidebar-collapsed {
+  margin-left: 0 !important;
+  transition: margin-left 0.3s;
+}
+
+.flex-grow-1, .app-main {
+  margin-left: 220px;
+}
+
+body {
+  background: #e5e7eb; /* Un gris oscuro suave, puedes usar #dee2e6 o #d1d5db */
+}
+
+#openSidebarBtn {
+  background: #fff;
+  color: #0d6efd;
+  border: 1px solid #0d6efd;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.flex-grow-1 {
+  margin-left: 220px;
+  transition: margin-left 0.3s;
+}
+
+.flex-grow-1.sidebar-collapsed {
+  margin-left: 0 !important;
+}
+
+#openSidebarBtn:not([style*="display: none"]) {
+  /* Opcional: puedes agregar sombra o fondo para que no se mezcle con el contenido */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.scrollbar-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  overflow-y: auto;
+  background: #f8f9fa;
+  z-index: 1030;
+}
+
+.app-sidebar {
+  width: 100%;     
+  background: #343a40;
+  color: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  height: 100vh;
+}
+
+.app-sidebar__inner {
+  padding: 1rem 0.5rem;
+}
+
+.vertical-nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vertical-nav-menu li {
+  margin-bottom: 1rem;
+}
+
+.vertical-nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.vertical-nav-menu a:hover,
+.vertical-nav-menu .active {
+  background: #495057;
+  color: #fff;
+  font-weight: bold;
+}
+
+.sidebar-shadow {
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+}
+
+/* Ajustes para los botones tipo hamburguesa */
+.hamburger, .btn-icon {
+  background: none;
+  border: none;
+  color: #fff;
+}
+
+.nav-separator {
+  font-weight: bold;
+  color: #fff;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  border-left: 4px solid #0d6efd;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px; /* Ajusta según tu diseño */
+  z-index: 1040;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+}
+.app-main {
+  background: #e5e7eb; /* O el tono que prefieras */
+  min-height: 100vh;
+}
+
+.app-header__content {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+  padding: 0 1rem;
+  padding-bottom: 20px;
+}
+
+.app-header__logo {
+  display: flex;
+  align-items: center;
+  min-width: 220px;
+  height: 64px;
+  background: #343a40;
+  color: #fff;
+  padding-left: 1rem;
+}
+
+.header__pane {
+  margin-left: auto;
+}
+
+.scrollbar-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  z-index: 1041; /* Mayor que el header */
+}
+/* Puedes agregar más estilos según tus necesidades */

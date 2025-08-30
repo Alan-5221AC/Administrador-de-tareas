@@ -1,0 +1,17 @@
+<%= form_with(model: tarea, local: true) do |form| %>
+  <% if tarea.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tarea.errors.count, "error") %> prohibited this tarea from being saved:</h2>
+
+      <ul>
+      <% tarea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

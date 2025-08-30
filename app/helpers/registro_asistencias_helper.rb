@@ -1,0 +1,2 @@
+module RegistroAsistenciasHelper
+end

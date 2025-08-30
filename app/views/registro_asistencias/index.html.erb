@@ -1,0 +1,97 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Registro de asistencias</h2>
+    <div class="col-md-4">
+<%= form_with url: registro_asistencias_path, method: :get, local: true do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], placeholder: t("tareas.acciones.search"), class: "form-control" %>
+    <button class="btn btn-primary" type="submit"><%= t("tareas.acciones.search") %></button>
+  </div>
+<% end %>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaAsistencia">
+      Nueva asistencia
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th>Empleado</th>
+          <th>Número de control</th>
+          <th>Fecha</th>
+          <th>Hora de entrada</th>
+          <th>Hora de salida</th>
+          <th>Modalidad</th>
+          <th>Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @asistencias.each do |asistencia| %>
+          <tr>
+            <td><%= asistencia.user&.nombre %> <%= asistencia.user&.apellidos %></td>
+            <td><%= asistencia.user&.numero_control %></td>
+            <td><%= asistencia.fecha %></td>
+            <td><%= asistencia.hora_entrada.strftime("%H:%M") if asistencia.hora_entrada %></td>
+            <td><%= asistencia.hora_salida.strftime("%H:%M") if asistencia.hora_salida %></td>
+            <td>
+              <% case asistencia.modalidad
+                when 0 %>Presencial
+                <% when 1 %>Remoto
+                <% when 2 %>Vacaciones
+                <% when 3 %>Permiso
+                <% else %>-
+              <% end %>
+            </td>
+            <td><%= asistencia.observaciones %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para nueva asistencia -->
+  <div class="modal fade" id="modalNuevaAsistencia" tabindex="-1" aria-labelledby="modalNuevaAsistenciaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNuevaAsistenciaLabel">Registrar nueva asistencia</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: @asistencia, url: registro_asistencias_path, local: true) do |form| %>
+            <div class="mb-3">
+              <%= form.label :user_id, "Empleado", class: "form-label" %>
+              <%= form.collection_select :user_id, @empleados, :id, :nombre, prompt: "Selecciona un empleado", class: "form-select" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :fecha, "Fecha", class: "form-label" %>
+              <%= form.date_field :fecha, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :hora_entrada, "Hora de entrada", class: "form-label" %>
+              <%= form.time_field :hora_entrada, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :hora_salida, "Hora de salida", class: "form-label" %>
+              <%= form.time_field :hora_salida, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :modalidad, "Modalidad", class: "form-label" %>
+              <%= form.select :modalidad, [["Presencial", 0], ["Remoto", 1], ["Vacaciones", 2], ["Permiso", 3]], {}, class: "form-select" %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :observaciones, "Observaciones", class: "form-label" %>
+              <%= form.text_area :observaciones, class: "form-control" %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <%= form.submit "Registrar", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

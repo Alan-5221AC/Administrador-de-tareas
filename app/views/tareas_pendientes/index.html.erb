@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Tareas pendientes</h2>
+    <div class="mb-3">
+      <%= form_with url: tareas_pendientes_path, method: :get, local: true, class: "row g-2 align-items-center" do %>
+        <div class="col-auto">
+          <%= label_tag :prioridad, "Filtrar por prioridad:", class: "col-form-label" %>
+        </div>
+        <div class="col-auto">
+          <%= select_tag :prioridad, options_for_select([["Todas", ""],[ t("tareas.baja"), 1], [ t("tareas.media"), 2], [ t("tareas.alta"), 3], [ t("tareas.urgente"), 4]], params[:prioridad]), class: "form-select" %>        </div>
+        <div class="col-auto">
+          <%= submit_tag "Filtrar", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <% @tareas_pendientes.each do |tarea| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= tarea.titulo %></h5>
+            <p class="card-text"><%= tarea.descripcion %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                Fecha límite <strong><%= tarea.fecha_limite %></strong>
+                <% if tarea.PersonaAsignada.present? %> | Asignada a <strong><%= tarea.PersonaAsignada %></strong><% end %>
+              </small>
+            </p>
+            <span class="badge bg-warning text-dark">Pendiente</span>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-success text-light" data-bs-toggle="modal" data-bs-target="#modalCompletarTarea" data-tarea-id="<%= tarea.id %>">
+              Completar
+            </button>
+            <%= link_to "Editar", edit_tarea_path(tarea), class: "btn btn-secondary text-light" %>
+            <%= link_to "Eliminar", tarea_path(tarea), method: :delete, data: { confirm: "Confirmar Eliminación" }, class: "btn btn-danger text-light" %>
+          </div>
+          <% if tarea.prioridad.present? %>
+            <div class="card-footer">
+              <span class="badge <%= tarea.prioridad_clase %>">
+                <%= tarea.prioridad_texto %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <!-- Modal único para completar tarea -->
+  <div class="modal fade" id="modalCompletarTarea" tabindex="-1" aria-labelledby="modalCompletarTareaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCompletarTareaLabel">Completar tarea</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with url: "", method: :patch, local: true, id: "formCompletarTarea" do |form| %>
+            <div class="mb-3">
+              <label for="descripcion_completado" class="form-label">¿Qué se realizó en la tarea?</label>
+              <textarea name="descripcion_completado" id="descripcion_completado" class="form-control" required></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="btnCompletarTarea" disabled>Completar</button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('modalCompletarTarea');
+            var form = document.getElementById('formCompletarTarea');
+            var btn = document.getElementById('btnCompletarTarea');
+            var textarea = document.getElementById('descripcion_completado');
+
+            if (modal && form && btn) {
+              modal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var tareaId = button.getAttribute('data-tarea-id');
+                form.action = '/tareas/' + tareaId + '/completar';
+                btn.disabled = false;
+                if (textarea) textarea.value = "";
+              });
+
+              form.addEventListener('submit', function(e) {
+                if (!form.action || form.action === "" || form.action.endsWith('/tareas_pendientes')) {
+                  e.preventDefault();
+                  alert('Error: No se pudo identificar la tarea a completar. Intenta de nuevo.');
+                }
+              });
+
+              modal.addEventListener('hidden.bs.modal', function () {
+                btn.disabled = true;
+                form.action = "";
+                if (textarea) textarea.value = "";
+              });
+            }
+          });
+        </script>
